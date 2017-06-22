@@ -9,7 +9,7 @@ public class Address {
 
 	@Id
 	@GeneratedValue
-	private Integer id;
+	private int id;
 
 	private String street;
 
@@ -21,11 +21,11 @@ public class Address {
 
 	private String postcode;
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
