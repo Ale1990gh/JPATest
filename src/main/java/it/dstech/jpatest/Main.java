@@ -5,15 +5,17 @@ import java.util.Scanner;
 
 public class Main {
 
-	private static ServicesCrud servicesCrud = new ServicesCrud("jpa-example");
+	private static ServicesCrud servicesCrud;
 	private static List<?> resultList;
-	private static Scanner in = new Scanner(System.in);
+	private static Scanner in;
 
 	public static void main(String[] args) {
 
+		servicesCrud = new ServicesCrud("jpa-example");
+		in = new Scanner(System.in);
 		System.out.println("Cosa vuoi fare?");
 
-		boolean exit = true;
+		boolean exit = false;
 
 		do {
 			System.out.println("1 - Insert record in database");
@@ -28,7 +30,7 @@ public class Main {
 			switch (scelta) {
 
 			case 1:
-				createRecord();
+				create();
 				break;
 
 			case 2:
@@ -45,42 +47,53 @@ public class Main {
 
 			case 5:
 				servicesCrud.closeLogicaJPA();
-				exit = false;
+				exit = true;
 				break;
 			}
-		} while (exit);
+		} while (!exit);
 
 	}
 
-	private static void createRecord() {
+	private static void create() {
 
-		Address address = new Address();
+		try {
+			Address address = new Address();
 
-		System.out.println("Inserisci via");
-		address.setStreet(in.nextLine());
-		System.out.println("Inserisci CAP");
-		address.setPostcode(in.nextLine());
-		System.out.println("Inserisci città");
-		address.setCity(in.nextLine());
-		System.out.println("Inserisci provincia");
-		address.setProvince(in.nextLine());
-		System.out.println("Inserisci stato");
-		address.setCountry(in.nextLine());
+			System.out.println("Inserisci via");
+			address.setStreet(in.nextLine());
 
-		servicesCrud.jpaCreate(address);
+			System.out.println("Inserisci CAP");
+			address.setPostcode(in.nextLine());
 
-		System.out.println("Record creato: " + address);
+			System.out.println("Inserisci città");
+			address.setCity(in.nextLine());
+
+			System.out.println("Inserisci provincia");
+			address.setProvince(in.nextLine());
+
+			System.out.println("Inserisci stato");
+			address.setCountry(in.nextLine());
+
+			servicesCrud.jpaCreate(address);
+
+			System.out.println("Record creato: " + address);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 
 	private static void read() {
 
-		resultList = servicesCrud.jpaRead("SELECT a FROM Address a").getResultList();
+		try {
+			resultList = servicesCrud.jpaRead("SELECT a FROM Address a").getResultList();
 
-		for (Object object : resultList) {
-			System.out.println(object);
+			for (Object object : resultList)
+				System.out.println(object);
+
+			System.out.println("Lista completata");
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
 		}
-
-		System.out.println("Lista completata");
 	}
 
 	private static void update() {
@@ -97,46 +110,48 @@ public class Main {
 
 			int el = in.nextInt();
 			in.nextLine();
-			Address object = (Address) resultList.get(el - 1);
+			Address address = (Address) resultList.get(el - 1);
 
 			System.out.println("Modificare via? y/n");
-			String risp = in.nextLine();
+			String risp = in.nextLine().toLowerCase();
 			if (risp.equals("y")) {
 				System.out.println("Inserisci via");
-				object.setStreet(in.nextLine());
+				address.setStreet(in.nextLine());
 			}
 			System.out.println("Modificare CAP? y/n");
-			risp = in.nextLine();
+			risp = in.nextLine().toLowerCase();
 			if (risp.equals("y")) {
 				System.out.println("Inserisci CAP");
-				object.setPostcode(in.nextLine());
+				address.setPostcode(in.nextLine());
 			}
 			System.out.println("Modificare città? y/n");
-			risp = in.nextLine();
+			risp = in.nextLine().toLowerCase();
 			if (risp.equals("y")) {
 				System.out.println("Inserisci città");
-				object.setCity(in.nextLine());
+				address.setCity(in.nextLine());
 			}
 			System.out.println("Modificare provincia? y/n");
-			risp = in.nextLine();
+			risp = in.nextLine().toLowerCase();
 			if (risp.equals("y")) {
 				System.out.println("Inserisci provincia");
-				object.setProvince(in.nextLine());
+				address.setProvince(in.nextLine());
 			}
 			System.out.println("Modificare stato? y/n");
-			risp = in.nextLine();
+			risp = in.nextLine().toLowerCase();
 			if (risp.equals("y")) {
 				System.out.println("Inserisci stato");
-				object.setCountry(in.nextLine());
+				address.setCountry(in.nextLine());
 			}
 
-			servicesCrud.jpaUpdate(object);
+			servicesCrud.jpaUpdate(address);
 
-			System.out.println("Record modificato: " + object);
+			System.out.println("Record modificato: " + address);
 
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("Devi inserire un indice valido");
 			update();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
 		}
 	}
 
@@ -164,6 +179,9 @@ public class Main {
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("Devi inserire un indice valido");
 			delete();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
 		}
+
 	}
 }
