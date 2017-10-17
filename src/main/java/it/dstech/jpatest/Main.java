@@ -11,7 +11,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		servicesCrud = new ServicesCrud("jpa-example");
+		servicesCrud = new ServicesCrud();
 		in = new Scanner(System.in);
 		System.out.println("Cosa vuoi fare?");
 

@@ -10,8 +10,8 @@ public class ServicesCrud {
 	private EntityManagerFactory emf;
 	private EntityManager em;
 
-	public ServicesCrud(String persistenceUnitName) {
-		emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+	public ServicesCrud() {
+		emf = Persistence.createEntityManagerFactory("jpa-example");
 		em = emf.createEntityManager();
 	}
 
