@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Main {
 
 	private static ServicesCrud servicesCrud;
-	private static List<?> resultList;
+	private static List<Address> resultList;
 	private static Scanner in;
 
 	public static void main(String[] args) {
@@ -82,13 +82,15 @@ public class Main {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private static void read() {
 
 		try {
 			resultList = servicesCrud.jpaRead("SELECT a FROM Address a").getResultList();
 
-			for (Object object : resultList)
-				System.out.println(object);
+			for (Address address : resultList) {
+				System.out.println(address);
+			}
 
 			System.out.println("Lista completata");
 		} catch (Exception e) {
@@ -96,13 +98,15 @@ public class Main {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private static void update() {
 
 		try {
 			int index = 1;
+			resultList = servicesCrud.jpaRead("SELECT a FROM Address a").getResultList();
 
-			for (Object object : resultList) {
-				System.out.println(index + " - " + object);
+			for (Address address : resultList) {
+				System.out.println(index + " - " + address);
 				index++;
 			}
 
@@ -155,14 +159,15 @@ public class Main {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private static void delete() {
 
 		try {
 			int index = 1;
+			resultList = servicesCrud.jpaRead("SELECT a FROM Address a").getResultList();
 
-			for (Object object : resultList) {
-
-				System.out.println(index + " - " + object);
+			for (Address address : resultList) {
+				System.out.println(index + " - " + address);
 				index++;
 			}
 
@@ -171,11 +176,11 @@ public class Main {
 			int el = in.nextInt();
 			in.nextLine();
 
-			Object object = resultList.get(el - 1);
+			Address address = resultList.get(el - 1);
 
-			servicesCrud.jpaDelete(object);
+			servicesCrud.jpaDelete(address);
 
-			System.out.println("Record eliminato :" + object);
+			System.out.println("Record eliminato :" + address);
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("Devi inserire un indice valido");
 			delete();
