@@ -1,5 +1,6 @@
 package it.dstech.jpatest;
 
+import javax.persistence.Column;//attenzione alla provenienza degli import
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -7,10 +8,13 @@ import javax.persistence.Id;
 @Entity
 public class Address {
 
-	@Id
-	@GeneratedValue
+	@Id // equivale a pk della tabella
+	@GeneratedValue // ()//logica incremento id: not null, auto-increment,
 	private int id;
 
+	@Column(nullable = false) // annotazione per il campo "street". nullable = false --> Istruzione per il db,
+								// se arriva un record con street valorizzato null, il db da errore e non crea
+								// il record. Se non specificato il valore booleano di nullable = e unique = )
 	private String street;
 
 	private String city;

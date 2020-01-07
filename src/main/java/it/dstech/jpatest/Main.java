@@ -11,7 +11,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		servicesCrud = new ServicesCrud("jpa-example");
+		servicesCrud = new ServicesCrud("jpa-example");// istanzia l'entitymanger per comunicare con il db
 		in = new Scanner(System.in);
 		System.out.println("Cosa vuoi fare?");
 
@@ -85,7 +85,17 @@ public class Main {
 	private static void read() {
 
 		try {
-			resultList = servicesCrud.jpaRead("SELECT a FROM Address a").getResultList();
+			resultList = servicesCrud.jpaRead("SELECT a FROM Address a").getResultList();// list di generics; select:
+																							// linguaggio HQL (Address a
+																							// = tipo e nome
+																							// dell'oggetto, select ogg
+																							// a from tabella address;
+																							// equivale ad una select *
+																							// from address). al posto
+																							// di .getResultList() -->
+																							// .getSingleResult() per
+																							// restituirmi solo un
+																							// record
 
 			for (Object object : resultList)
 				System.out.println(object);
@@ -110,7 +120,8 @@ public class Main {
 
 			int el = in.nextInt();
 			in.nextLine();
-			Address address = (Address) resultList.get(el - 1);
+			Address address = (Address) resultList.get(el - 1); // -1 perchè java inizia a contare da 0, non da 1 come i
+																// db
 
 			System.out.println("Modificare via? y/n");
 			String risp = in.nextLine().toLowerCase();

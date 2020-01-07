@@ -17,7 +17,7 @@ public class ServicesCrud {
 
 	public void jpaCreate(Object obj) {
 		em.getTransaction().begin();
-		em.persist(obj);
+		em.persist(obj); //rende persistente un ogg sul db
 		em.getTransaction().commit();
 		em.detach(obj);
 	}
@@ -30,7 +30,7 @@ public class ServicesCrud {
 		em.getTransaction().begin();
 		em.merge(obj);
 		em.getTransaction().commit();
-		em.detach(obj);
+		em.detach(obj);//chiudi
 	}
 
 	public void jpaDelete(Object obj) {
@@ -39,7 +39,7 @@ public class ServicesCrud {
 		em.getTransaction().commit();
 	}
 
-	public void closeLogicaJPA() {
+	public void closeLogicaJPA() { //chiude la logica di connessione al db
 		em.close();
 		emf.close();
 	}
